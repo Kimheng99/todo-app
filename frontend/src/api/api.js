@@ -5,7 +5,7 @@
 // BASE_URL points to our Express backend.
 // All requests go through the functions below.
 
-const BASE_URL = 'http://localhost:5000/api';
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 // Helper: Get the JWT token from localStorage
 const getToken = () => localStorage.getItem('token');
