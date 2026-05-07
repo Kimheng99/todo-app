@@ -20,7 +20,18 @@ const PORT = process.env.PORT || 5000;
 // Without CORS, the browser blocks requests between different ports/domains.
 // This tells Express: "yes, allow requests from our frontend."
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: function(origin, callback) {
+    const allowed = [
+      'http://localhost:3000',          // local dev
+      process.env.FRONTEND_URL,         // set this in Render env vars
+    ].filter(Boolean);
+
+    if (!origin || allowed.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
 
